@@ -5,9 +5,6 @@ import {Product} from "@/components";
 
 // @ts-ignore
 const Home = ({products, bannerData}) => {
-
-    console.log(bannerData);
-
     return (
         <div>
             {/*// @ts-ignore*/}

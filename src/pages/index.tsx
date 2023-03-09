@@ -1,11 +1,13 @@
 import React from 'react';
 import {FooterBanner, HeroBanner} from "../components";
 import {client} from "@/lib/client";
+import {Product} from "@/components";
 
 // @ts-ignore
 const Home = ({products, bannerData}) => {
-console.log('hello banner');
-console.log(bannerData);
+
+    console.log(bannerData);
+
     return (
         <div>
             {/*// @ts-ignore*/}
@@ -18,10 +20,11 @@ console.log(bannerData);
             <div className={'products-container'}>
                 {products?.map(
                     // @ts-ignore
-                    (product) => product.name
+                    (product) =>
+                        <Product key={product.id} product={product}/>
                 )}
             </div>
-            <FooterBanner/>
+            <FooterBanner footerBanner={bannerData && bannerData[0]}/>
         </div>
     );
 }

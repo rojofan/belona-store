@@ -2,11 +2,26 @@ import React, {useState} from "react";
 import {client, urlFor} from "@/lib/client";
 import {AiFillStar, AiOutlineMinus, AiOutlinePlus, AiOutlineStar} from "react-icons/ai";
 import {Product} from "@/components";
+import {useStateContext} from "@/context/StateContext";
+import {ProductDto} from "@/models/ProductDto";
+import {GetStaticProps} from "next";
+import {ParsedUrlQuery} from "querystring";
 
-const ProductDetails = ({products, product}) => {
+type SlugProps = {
+    products: ProductDto[],
+    product: ProductDto
+}
 
+interface Params extends ParsedUrlQuery {
+    slug: string
+}
+
+const ProductDetails = ({slugProps}: { slugProps: SlugProps }) => {
+
+    const {products, product} = slugProps;
     const {image, name, details, price} = product;
     const [index, setIndex] = useState(0);
+    const {decreaseQuantity, increaseQuantity, quantity, onAdd, cartItems} = useStateContext();
 
     return (
         <div>
@@ -17,7 +32,7 @@ const ProductDetails = ({products, product}) => {
                 <div className="small-images-container">
                     {image?.map((item, i) => (
                         <img
-                            src={urlFor(item)}
+                            src={urlFor(item)?.toString()}
                             className={i === index ?
                                 'small-image selected-image' :
                                 'small-image'}
@@ -45,13 +60,16 @@ const ProductDetails = ({products, product}) => {
                 <div className="quantity">
                     <h3>Quantity</h3>
                     <p className="quantity-desc">
-                        <span className="minus" onClick=""><AiOutlineMinus/></span>
-                        <span className="num" onClick="">0</span>
-                        <span className="plus" onClick=""><AiOutlinePlus/></span>
+                        <span className="minus" onClick={decreaseQuantity}><AiOutlineMinus/></span>
+                        <span className="num">{quantity}</span>
+                        <span className="plus" onClick={increaseQuantity}><AiOutlinePlus/></span>
                     </p>
                 </div>
                 <div className="buttons">
-                    <button type="button" className="add-to-cart">Add to Cart</button>
+                    <button type="button" className="add-to-cart" onClick={
+                        () => onAdd(product, quantity)
+                    }>Add to Cart
+                    </button>
                     <button type="button" className="buy-now">Buy Now</button>
 
                 </div>
@@ -78,9 +96,9 @@ export const getStaticPaths = async () => {
     }`;
 
     const products = await client.fetch(query);
-    const paths = products.map((product) => ({
+    const paths = products.map((product: ProductDto) => ({
         params: {
-            slug: product.slug.current
+            slug: product.slug?.current
         }
     }));
 
@@ -90,15 +108,22 @@ export const getStaticPaths = async () => {
     }
 }
 
-export const getStaticProps = async ({params: {slug}}) => {
+export const getStaticProps: GetStaticProps = async (context) => {
+
+    const {slug} = context.params as Params
     const query = `*[_type == "product" && slug.current == '${slug}'][0]`;
     const productsQuery = '*[_type == "product"]';
 
-    const product = await client.fetch(query);
-    const products = await client.fetch(productsQuery);
+    const product = await client.fetch(query) as ProductDto;
+    const products = await client.fetch(productsQuery) as ProductDto[];
 
     return {
-        props: {products, product}
+        props: {
+            slugProps: {
+                products,
+                product
+            } as SlugProps
+        }
     }
 }
 

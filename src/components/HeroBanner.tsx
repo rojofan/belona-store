@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from "next/link";
 import {urlFor} from "@/lib/client";
+import {BannerDto} from "@/models/BannerDto";
 
-// @ts-ignore
-const HeroBanner = ({heroBanner}) => {
+const HeroBanner = ({heroBanner}: { heroBanner: BannerDto }) => {
     return (
         <div className='hero-banner-container'>
             <div>

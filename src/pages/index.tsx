@@ -1,10 +1,20 @@
 import React from 'react';
+import type {GetServerSideProps} from "next";
 import {FooterBanner, HeroBanner} from "../components";
 import {client} from "@/lib/client";
 import {Product} from "@/components";
+import {BannerDto} from "@/models/BannerDto";
+import {ProductDto} from "@/models/ProductDto";
 
-// @ts-ignore
-const Home = ({products, bannerData}) => {
+type HomeProps = {
+    products: ProductDto[],
+    bannerData: BannerDto[]
+}
+
+const Home = ({homeProps}: { homeProps: HomeProps }) => {
+
+    const {products, bannerData} = homeProps;
+
     return (
         <div>
             {/*// @ts-ignore*/}
@@ -18,24 +28,29 @@ const Home = ({products, bannerData}) => {
                 {products?.map(
                     // @ts-ignore
                     (product) =>
-                        <Product key={product.id} product={product}/>
+                        <Product key={product._id} product={product}/>
                 )}
             </div>
-            <FooterBanner footerBanner={bannerData && bannerData[0]}/>
+            <FooterBanner footerBanner={bannerData[0]}/>
         </div>
     );
 }
 
-
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const query = '*[_type == "product"]';
-    const products = await client.fetch(query);
-
+    const productsRes = await client.fetch(query) as BannerDto[];
+    /* const products =  ProductDto.toDtoCollection(productsRes);*/
     const bannerQuery = '*[_type == "banner"]';
-    const bannerData = await client.fetch(bannerQuery);
+    const bannerDataRes = await client.fetch(bannerQuery) as BannerDto[];
+    /*const bannerData = BannerDto.toDtoCollection(bannerDataRes);*/
 
     return {
-        props: {products, bannerData}
+        props: {
+            homeProps: {
+                products: productsRes,
+                bannerData: bannerDataRes
+            } as HomeProps
+        }
     }
 }
 

@@ -7,8 +7,11 @@ import {number} from "prop-types";
 const AppContext = createContext({
     showCart: Boolean,
     cartItems: [] as (CartItemDto | undefined)[],
+    setCartItems: (newCartItems: CartItemDto[]) => {},
     totalPrice: number,
+    setTotalPrice: (value: number) => {},
     totalQuantities: number,
+    setTotalQuantities: (value: number) => {},
     quantity: number,
     setShowCart: (value: boolean) => {},
     increaseQuantity: (product: ProductDto, quantity: number) => {},
@@ -89,8 +92,11 @@ export const StateContext = (props: { children: React.ReactNode }) => {
             value={{
                 showCart,
                 cartItems,
+                setCartItems,
                 totalPrice,
+                setTotalPrice,
                 totalQuantities,
+                setTotalQuantities,
                 quantity,
                 increaseQuantity,
                 decreaseQuantity,

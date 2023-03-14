@@ -21,7 +21,13 @@ const ProductDetails = ({slugProps}: { slugProps: SlugProps }) => {
     const {products, product} = slugProps;
     const {image, name, details, price} = product;
     const [index, setIndex] = useState(0);
-    const {decreaseQuantity, increaseQuantity, quantity, onAdd, cartItems} = useStateContext();
+    const {decreaseQuantity, increaseQuantity, quantity, onAdd, setShowCart} = useStateContext();
+
+    const handleBuyNow = () => {
+      onAdd(product, quantity);
+
+      setShowCart(true);
+    }
 
     return (
         <div>
@@ -72,7 +78,7 @@ const ProductDetails = ({slugProps}: { slugProps: SlugProps }) => {
                         () => onAdd(product, quantity)
                     }>Add to Cart
                     </button>
-                    <button type="button" className="buy-now">Buy Now</button>
+                    <button type="button" className="buy-now" onClick={handleBuyNow}>Buy Now</button>
 
                 </div>
             </div>

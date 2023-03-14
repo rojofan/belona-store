@@ -17,8 +17,7 @@ const Home = ({homeProps}: { homeProps: HomeProps }) => {
 
     return (
         <div>
-            {/*// @ts-ignore*/}
-            <HeroBanner heroBanner={bannerData?.length && bannerData[0]}/>
+            <HeroBanner heroBanner={bannerData[0]}/>
             <div className={'products-heading'}>
                 <h2>Best selling products</h2>
                 <p>Speakers of many variations</p>

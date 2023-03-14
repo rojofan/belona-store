@@ -7,7 +7,6 @@ import {urlFor} from "@/lib/client";
 import getStripe from "@/lib/getStripe";
 import {toast} from "react-hot-toast";
 
-
 const Cart = () => {
     const cartRef = useRef();
     const {totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuantity, onRemove} = useStateContext()
@@ -39,7 +38,7 @@ const Cart = () => {
                 </button>
                 {cartItems.length < 1 && (
                     <div className="empty-cart">
-                        <AiOutlineShopping size={150}/>
+                        <img alt={''} className="cart-empty-bag-image" src='../../shopping-bags-empty.webp'/>
                         <h3>Your shopping bag is empty</h3>
                         <Link href="/">
                             <button type="button" onClick={() => setShowCart(false)} className="btn">

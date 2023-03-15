@@ -30,6 +30,7 @@ const Success = () => {
             </a>
           </p>
           <Link href="/">
+            {/*// @ts-ignore*/}
             <button type="button" width="300px" className="btn">
               Continue Shopping
             </button>

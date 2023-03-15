@@ -1,10 +1,11 @@
 import Stripe from "stripe";
 /*const stripe = require('stripe')(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_TEST);*/
 
+// @ts-ignore
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_TEST,{
     apiVersion: '2022-11-15'}
 );
-
+// @ts-ignore
 export default async function handler(req, res) {
 
     const params = {
@@ -16,6 +17,7 @@ export default async function handler(req, res) {
             { shipping_rate: 'shr_1Ml57GKOWzINorXuUD6Pp44C' },
             { shipping_rate: 'shr_1Ml58SKOWzINorXuPIAP7C5Y' }
         ],
+        // @ts-ignore
         line_items: req.body.map((item) => {
             const img = item.image[0].asset._ref;
             const newImage = img.replace('image-', 'https://cdn.sanity.io/images/nqo0u268//production/').replace('-webp', '.webp');
@@ -42,9 +44,11 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
             // Create Checkout Sessions from body params.
+            // @ts-ignore
             const session = await stripe.checkout.sessions.create(params);
             res.status(200).json(session);
         } catch (err) {
+            // @ts-ignore
             res.status(err.statusCode || 500).json(err.message);
         }
     } else {

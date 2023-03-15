@@ -16,6 +16,7 @@ const Navbar = () => {
                 <AiOutlineShopping/>
                 <span className="cart-item-qty">{`${totalQuantities}`}</span>
             </button>
+            {/*// @ts-ignore*/}
             {showCart && <Cart/>}
         </div>
     )

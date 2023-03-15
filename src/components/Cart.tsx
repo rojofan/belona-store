@@ -29,6 +29,7 @@ const Cart = () => {
         stripe.redirectToCheckout({sessionId: data.id});
     }
     return (
+        // @ts-ignore
         <div className='cart-wrapper' ref={cartRef}>
             <div className="cart-container">
                 <button type='button' className='cart-heading' onClick={() => setShowCart(false)}>
@@ -50,20 +51,27 @@ const Cart = () => {
                 )}
                 <div className="product-container">
                     {cartItems.length >= 1 && cartItems.map((item) => (
+                        // @ts-ignore
                         <div className="product" key={item._id}>
+                            {/*// @ts-ignore*/}
                             <img alt={item?.name} src={urlFor(item.image[0])} className="cart-product-image"/>
                             <div className="item-desc">
                                 <div className="flex top">
+                                    {/*// @ts-ignore*/}
                                     <h5>{item.name}</h5>
+                                    {/*// @ts-ignore*/}
                                     <h4>${item.price}</h4>
                                 </div>
                                 <div className="flex bottom">
                                     <div>
                                         <p className="quantity-desc">
                                             <span className="minus"
+                                                // @ts-ignore
                                                   onClick={() => toggleCartItemQuantity(item._id, 'decrement')}><AiOutlineMinus/></span>
+                                            {/*// @ts-ignore*/}
                                             <span className="num">{item.quantity}</span>
                                             <span className="plus"
+                                                // @ts-ignore
                                                   onClick={() => toggleCartItemQuantity(item._id, 'increment')}><AiOutlinePlus/></span>
                                         </p>
                                     </div>

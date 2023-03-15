@@ -1,4 +1,5 @@
-import {defineCliConfig} from 'sanity/cli'
+// @ts-ignore
+import {defineCliConfig} from '../sanity_belona-store/sanity/cli'
 
 export default defineCliConfig({
   api: {

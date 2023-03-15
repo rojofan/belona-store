@@ -1,7 +1,9 @@
-import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk'
-import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemas'
+import {defineConfig} from 'sanity';
+import {deskTool} from 'sanity/desk';
+// @ts-ignore
+import {visionTool} from '../sanity_belona-store/sanity/vision'
+import {schemaTypes} from './schemas';
+
 
 export default defineConfig({
   name: 'default',
